@@ -3,15 +3,18 @@ from bs4 import BeautifulSoup as bs
 from datetime import datetime
 from datetime import timedelta
 import unicodedata
-
+import pprint as pp
+import send
 
 URL = "https://www.data.jma.go.jp/developer/xml/feed/extra_l.xml"
 TIMESPAN = 30
 
-# This should NOT be fixed ... but not enough time.
+# This should NOT be fixed ...
 TARGET_REGION = "仙台管区気象台"
 
 def search(region, check_time):
+    send_date = []
+
     # get info from JMA server
     response = requests.get(URL)
     response.encoding = response.apparent_encoding
@@ -37,14 +40,33 @@ def search(region, check_time):
             # send message here !
             content = target.find('content').string
             content = content.replace('】', '】\n')
-            content = unicodedata.normalize('NFKC', content)
-            text =  f"{issued_time.year:04}年{issued_time.month:02}月{issued_time.day:02}日"+\
-                    f"{issued_time.hour:02}時{issued_time.minute:02}分\n"+\
-                    f"{content}"+\
-                    f"\n{TARGET_REGION}発表"
-            print(text)
+            split = content.split('\n')
+            if len(split) == 2:
+                title = unicodedata.normalize('NFKC', split[0])
+                body = unicodedata.normalize('NFKC', split[1])
+                content = None
+                split_ed = True
+            else:
+                title = None
+                body = None
+                content = unicodedata.normalize('NFKC', content)
+                split_ed = False
+
+            data = f"{issued_time.year:04}/{issued_time.month:02}/{issued_time.day:02} {issued_time.hour:02}:{issued_time.minute:02}"
+            send_date.append(
+                {
+                    "data":data,
+                    "region":region,
+                    "title":title,
+                    "body":body,
+                    "content":content,
+                    "split_ed":split_ed
+                }
+            )
         else:
             pass
+
+    return send_date
 
 
 def main():
@@ -57,15 +79,19 @@ def main():
         seconds = dt_now.second,
         microseconds = dt_now.microsecond
     )
-    # If TIMESPAN = 30:
+    # If TIMESPAN = 30: This is the shortest time, from 30 to 59 minutes.
         # for exsample, 14:30 will be 14:00 ; send data issued after 14:00
         # for exsample, 06:01 will be 05:30 ; send data issued after 05:00
     print(check_time)
 
-    search(
+    res = search(
         region = TARGET_REGION,
         check_time = check_time
     )
+
+    for content in res:
+        send
+    pp.pprint(tmp)
 
 if __name__=="__main__":
     main()
