@@ -88,12 +88,17 @@ def main():
         check_time = check_time
     )
 
-    for content in res:
-        if content["split_ed"]:
-            text = f'{content["title"]}\\\\n{content["date"]}\\\\n{content["body"]}\\\\n{content["region"]}'
-        else:
-            text = content["content"]
-        send.send_msg(text)
+    if len(search):
+        for content in res:
+            if content["split_ed"]:
+                text = f'{content["title"]}\\\\n{content["date"]}\\\\n{content["body"]}\\\\n{content["region"]}'
+            else:
+                text = content["content"]
+            send.send_msg(text)
+    else:
+        send.send_msg("no update")
+
+
     # pp.pprint(tmp)
 
 if __name__=="__main__":
