@@ -88,7 +88,7 @@ def main():
         check_time = check_time
     )
 
-    if len(search):
+    if len(res):
         for content in res:
             if content["split_ed"]:
                 text = f'{content["title"]}\\\\n{content["date"]}\\\\n{content["body"]}\\\\n{content["region"]}'
