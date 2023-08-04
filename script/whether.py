@@ -96,7 +96,8 @@ def main():
                 text = content["content"]
             send.send_msg(text)
     else:
-        send.send_msg("no update")
+        pass
+        # send.send_msg("no update")
 
 
     # pp.pprint(tmp)
