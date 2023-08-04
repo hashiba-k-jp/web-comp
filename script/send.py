@@ -15,7 +15,7 @@ def send(text):
         \"messages\":[ \
             {{ \
                 \"type\":\"text\", \
-                \"text\":\"Hello, world1\" \
+                \"text\":\"{ text } \" \
             }} \
         ] \
     }}\'"
@@ -26,4 +26,4 @@ def send(text):
 
 
 if __name__ == "__main__":
-    send("test")
+    send("This is a test message.")
