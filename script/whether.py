@@ -37,7 +37,6 @@ def search(region, check_time):
         print(issued_time, issued_time > check_time)
 
         if issued_time > check_time:
-            # send message here !
             content = target.find('content').string
             content = content.replace('】', '】\n')
             split = content.split('\n')
@@ -72,7 +71,7 @@ def search(region, check_time):
 def main():
     # This program is estimeted to be run in each 30 minutes.
     dt_now = datetime.now()
-    dt_now = datetime(2023, 7, 19, 5, 30, 0) # This is a sample datetime
+    # dt_now = datetime(2023, 7, 19, 5, 30, 0) # This is a sample datetime
 
     check_time = dt_now - timedelta(
         minutes = (dt_now.minute % TIMESPAN) + TIMESPAN,
@@ -82,7 +81,7 @@ def main():
     # If TIMESPAN = 30: This is the shortest time, from 30 to 59 minutes.
         # for exsample, 14:30 will be 14:00 ; send data issued after 14:00
         # for exsample, 06:01 will be 05:30 ; send data issued after 05:00
-    print(check_time)
+    # print(check_time)
 
     res = search(
         region = TARGET_REGION,
@@ -94,7 +93,6 @@ def main():
             text = f'{content["title"]}\\\\n{content["date"]}\\\\n{content["body"]}\\\\n{content["region"]}'
         else:
             text = content["content"]
-        #print(text)
         send.send_msg(text)
     # pp.pprint(tmp)
 
