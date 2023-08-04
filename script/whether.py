@@ -91,7 +91,7 @@ def main():
 
     for content in res:
         if content["split_ed"]:
-            text = f'{content["title"]}\n{content["date"]}\n{content["body"]}\n{content["region"]}'
+            text = f'{content["title"]}\\\n{content["date"]}\\\n{content["body"]}\\\n{content["region"]}'
         else:
             text = content["content"]
         #print(text)
