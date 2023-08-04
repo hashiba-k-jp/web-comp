@@ -1,6 +1,7 @@
 import os
 
 def send_msg(text):
+    print(f'[CALLED] text:{{{text}}}')
 
     try:
         LINEAPI_TOKEN = os.environ['LINEAPI_TOKEN']
