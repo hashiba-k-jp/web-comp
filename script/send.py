@@ -1,6 +1,6 @@
 import os
 
-def send(text):
+def send_msg(text):
 
     try:
         LINEAPI_TOKEN = os.environ['LINEAPI_TOKEN']
@@ -26,4 +26,4 @@ def send(text):
 
 
 if __name__ == "__main__":
-    send("This is a test message.")
+    send_msg("This is a test message.")

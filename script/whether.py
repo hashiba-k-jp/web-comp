@@ -52,10 +52,10 @@ def search(region, check_time):
                 content = unicodedata.normalize('NFKC', content)
                 split_ed = False
 
-            data = f"{issued_time.year:04}/{issued_time.month:02}/{issued_time.day:02} {issued_time.hour:02}:{issued_time.minute:02}"
+            date = f"{issued_time.year:04}/{issued_time.month:02}/{issued_time.day:02} {issued_time.hour:02}:{issued_time.minute:02}"
             send_date.append(
                 {
-                    "data":data,
+                    "date":date,
                     "region":region,
                     "title":title,
                     "body":body,
@@ -90,8 +90,13 @@ def main():
     )
 
     for content in res:
-        send
-    pp.pprint(tmp)
+        if content["split_ed"]:
+            text = f'{content["title"]}\n{content["date"]}\n{content["body"]}\n{content["region"]}'
+        else:
+            text = content["content"]
+        #print(text)
+        send.send_msg(text)
+    # pp.pprint(tmp)
 
 if __name__=="__main__":
     main()
